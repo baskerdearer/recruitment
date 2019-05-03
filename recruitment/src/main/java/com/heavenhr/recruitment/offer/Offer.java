@@ -1,9 +1,14 @@
-package com.heavenhr.recruitment.model;
+package com.heavenhr.recruitment.offer;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@Entity
 public class Offer {
 	
 	public Offer() {
@@ -11,7 +16,9 @@ public class Offer {
 	}
 
 	@JsonProperty("id")
-	private Integer id = null;
+	@Id
+	@GeneratedValue
+	private Long id = null;
 	
 	@JsonProperty("jobTitle")
 	private String jobTitle = null;
@@ -19,10 +26,10 @@ public class Offer {
 	@JsonProperty("startDate")
 	private Date startDate = null;
 	
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getJobTitle() {
