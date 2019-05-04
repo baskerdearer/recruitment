@@ -17,11 +17,19 @@ public class UniqueCandidateOffer implements Serializable {
 		// Do Nothing.
 	}
 	
-	@Column(name="offer_id")
+	@Column(name="ID")
+	private Long id;
+	
+	@Column(name="OFFER_ID")
 	private Long offerID;
 	
-	@Column(name="email_id")
-	private String emailId;
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public Long getOfferID() {
 		return offerID;
@@ -29,21 +37,12 @@ public class UniqueCandidateOffer implements Serializable {
 
 	public void setOfferID(Long offerID) {
 		this.offerID = offerID;
-	}
-
-	public String getEmailId() {
-		return emailId;
-	}
-
-	public void setEmailId(String emailId) {
-		this.emailId = emailId;
-	}
+	}	
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((emailId == null) ? 0 : emailId.hashCode());
 		result = prime * result + ((offerID == null) ? 0 : offerID.hashCode());
 		return result;
 	}
@@ -56,12 +55,7 @@ public class UniqueCandidateOffer implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		UniqueCandidateOffer other = (UniqueCandidateOffer) obj;
-		if (emailId == null) {
-			if (other.emailId != null)
-				return false;
-		} else if (!emailId.equals(other.emailId))
-			return false;
+		UniqueCandidateOffer other = (UniqueCandidateOffer) obj;		
 		if (offerID == null) {
 			if (other.offerID != null)
 				return false;
@@ -72,8 +66,7 @@ public class UniqueCandidateOffer implements Serializable {
 
 	@Override
 	public String toString() {
-		return "UniqueCandidateOffer [offerID=" + offerID + ", emailId="
-				+ emailId + "]";
+		return "UniqueCandidateOffer [offerID=" + offerID + "]";
 	}
 	
 }

@@ -16,8 +16,8 @@ public class OfferApplicationService {
 		return this.offerApplicationRepository.save(offerApplication);
 	}
 	
-	public Optional<OfferApplication> get(Long id) {
-		return this.offerApplicationRepository.findById(id);
+	public Optional<OfferApplication> get(UniqueCandidateOffer uniqueCandidateOffer) {
+		return this.offerApplicationRepository.findById(uniqueCandidateOffer);
 	}
 	
 	public List<OfferApplication> allOfferApplication() {

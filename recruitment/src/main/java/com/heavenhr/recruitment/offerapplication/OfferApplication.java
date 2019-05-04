@@ -1,26 +1,39 @@
 package com.heavenhr.recruitment.offerapplication;
 
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import com.heavenhr.recruitment.offer.Offer;
 
 @Entity
-public class OfferApplication {
-	
+@Table(name = "OFFER_APPLICATION")
+public class OfferApplication implements Serializable{
+
 	public OfferApplication() {
 		// Do Nothing.
 	}
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
+	@Column(name = "ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private Long offerId;
-	private String emailId;
+	@EmbeddedId
+	private UniqueCandidateOffer uniqueCandidateOffer;
+	
 	private String resumeText;
 	private String status;
 	
@@ -30,18 +43,7 @@ public class OfferApplication {
 	public void setId(Long id) {
 		this.id = id;
 	}	
-	public Long getOfferId() {
-		return offerId;
-	}
-	public void setOfferId(Long offerId) {
-		this.offerId = offerId;
-	}
-	public String getEmailId() {
-		return emailId;
-	}
-	public void setEmailId(String emailId) {
-		this.emailId = emailId;
-	}
+	
 	public String getResumeText() {
 		return resumeText;
 	}
@@ -58,8 +60,7 @@ public class OfferApplication {
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((emailId == null) ? 0 : emailId.hashCode());
+		int result = 1;		
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result
 				+ ((resumeText == null) ? 0 : resumeText.hashCode());
@@ -75,12 +76,7 @@ public class OfferApplication {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		OfferApplication other = (OfferApplication) obj;
-		if (emailId == null) {
-			if (other.emailId != null)
-				return false;
-		} else if (!emailId.equals(other.emailId))
-			return false;
+		OfferApplication other = (OfferApplication) obj;		
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -102,7 +98,7 @@ public class OfferApplication {
 	@Override
 	public String toString() {
 		return "OfferApplication [id=" + id 
-				+ ", emailId=" + emailId + ", resumeText=" + resumeText
+				+ ", resumeText=" + resumeText
 				+ ", status=" + status + "]";
 	}
 	

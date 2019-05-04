@@ -20,6 +20,7 @@ import com.heavenhr.recruitment.offer.Offer;
 import com.heavenhr.recruitment.offer.OfferService;
 import com.heavenhr.recruitment.offerapplication.OfferApplication;
 import com.heavenhr.recruitment.offerapplication.OfferApplicationService;
+import com.heavenhr.recruitment.offerapplication.UniqueCandidateOffer;
 
 @RestController
 public class RecruitmentApiController {
@@ -60,8 +61,11 @@ public class RecruitmentApiController {
 	@GetMapping(value = "/offer/{offerId}/application/{id}", produces= {"application/json"})
 	public ResponseEntity<Optional<OfferApplication>> offerApplicationGet(@PathVariable ("offerId") Long offerId, @PathVariable ("id") Long id) {
 		LOG.info("offerApplicationGet invoked.");
+		UniqueCandidateOffer uniqueCandidateOffer = new UniqueCandidateOffer();
+		uniqueCandidateOffer.setId(id);
+		uniqueCandidateOffer.setOfferID(offerId);
 		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON)
-				.body(this.offerApplicationService.get(id));
+				.body(this.offerApplicationService.get(uniqueCandidateOffer));
 	}
 	
 	@RequestMapping(value="/offer/{offerId}/applications", produces = {"application/json"})
