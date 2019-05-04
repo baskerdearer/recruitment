@@ -20,7 +20,9 @@ public class OfferApplicationService {
 	
 	public OfferApplication save(OfferApplication offerApplication, Long offerId) {
 		Optional<Offer> offer = this.offerRepository.findById(offerId);
-		System.out.println(offer.get() + " Value present or not");
+		if(!offer.isPresent()) {
+			return null;
+		}
 		offerApplication.setOfferId(offer.get());
 		return this.offerApplicationRepository.save(offerApplication);
 	}
@@ -35,7 +37,9 @@ public class OfferApplicationService {
 	
 	public OfferApplication update(OfferApplication offerApplication, Long offerId) {
 		Optional<Offer> offer = this.offerRepository.findById(offerId);
-		System.out.println(offer.get() + " Value present or not");
+		if(!offer.isPresent()) {
+			return null;
+		}
 		offerApplication.setOfferId(offer.get());
 		return this.offerApplicationRepository.save(offerApplication);
 	}
