@@ -17,27 +17,31 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.heavenhr.recruitment.offerapplication.OfferApplication;
 
 @Entity
-@Table(name= "OFFER")
+@Table(name= "offer_table")
 public class Offer {
 	
 	public Offer() {
-		// Do Nothing.
 	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="ID", insertable = false, updatable=false)
-	private Long id = null;
+	@Column(name="OFFER_ID")
+	private Long offer_id = null;
 	
+	@Column
 	private String jobTitle = null;
 	
+	@Column
 	private Date startDate = null;
 	
+	@OneToMany(mappedBy="offerId")
+    private Set<OfferApplication> applications;
+	
 	public Long getId() {
-		return id;
+		return offer_id;
 	}
 	public void setId(Long id) {
-		this.id = id;
+		this.offer_id = id;
 	}
 	public String getJobTitle() {
 		return jobTitle;
@@ -55,7 +59,7 @@ public class Offer {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((offer_id == null) ? 0 : offer_id.hashCode());
 		result = prime * result
 				+ ((jobTitle == null) ? 0 : jobTitle.hashCode());
 		result = prime * result
@@ -71,10 +75,10 @@ public class Offer {
 		if (getClass() != obj.getClass())
 			return false;
 		Offer other = (Offer) obj;
-		if (id == null) {
-			if (other.id != null)
+		if (offer_id == null) {
+			if (other.offer_id != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!offer_id.equals(other.offer_id))
 			return false;
 		if (jobTitle == null) {
 			if (other.jobTitle != null)
@@ -90,7 +94,7 @@ public class Offer {
 	}
 	@Override
 	public String toString() {
-		return "Offer [id=" + id + ", jobTitle=" + jobTitle + ", startDate="
+		return "Offer [id=" + offer_id + ", jobTitle=" + jobTitle + ", startDate="
 				+ startDate + "]";
 	}	
 }

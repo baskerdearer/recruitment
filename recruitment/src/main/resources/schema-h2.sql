@@ -1,0 +1,16 @@
+CREATE TABLE IF NOT EXISTS offer_table(
+OFFER_ID LONG  PRIMARY KEY AUTO_INCREMENT,
+jobTitle VARCHAR(50) NOT NULL,
+startDate DATE(15) NOT NULL
+
+)
+
+CREATE TABLE application_table(
+ 	APPLICATION_ID LONG  PRIMARY KEY AUTO_INCREMENT,
+    emailId VARCHAR(100) NOT NULL,
+    resumeText VARCHAR(300) NOT NULL,
+    status VARCHAR(20) NOT NULL,
+    OFFER_ID LONG,
+  foreign key (OFFER_ID) references offer(OFFER_ID)
+   
+)

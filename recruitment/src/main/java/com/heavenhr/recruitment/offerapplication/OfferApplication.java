@@ -1,13 +1,17 @@
 package com.heavenhr.recruitment.offerapplication;
 
+
 import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -16,7 +20,6 @@ import com.heavenhr.recruitment.offer.Offer;
 @Entity
 @Table(name = "OFFER_APPLICATION")
 public class OfferApplication implements Serializable{
-
 	public OfferApplication() {
 		// Do Nothing.
 	}
@@ -25,49 +28,80 @@ public class OfferApplication implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	@Id
-	@Column(name = "ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID")
 	private Long id;
-
-	@EmbeddedId
-	private UniqueCandidateOffer uniqueCandidateOffer;
 	
+	@ManyToOne
+    @JoinColumn(name="offer_id", nullable=false)
+	private Offer offerId;
+	
+	@Column
+	private String emailId;
+	
+	@Column
 	private String resumeText;
-	private String status;
 	
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}	
+	@Column
+	@Enumerated(EnumType.STRING)
+	private ApplicationStatus status;
 	
-	public String getResumeText() {
-		return resumeText;
-	}
-	public void setResumeText(String resumeText) {
-		this.resumeText = resumeText;
-	}
-	public String getStatus() {
-		return status;
-	}
-	public void setStatus(String status) {
+	public void setStatus(ApplicationStatus status) {
 		this.status = status;
 	}
 	
+	public void setResumeText(String resumeText) {
+		this.resumeText = resumeText;
+	}
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;		
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+	//	result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result
 				+ ((resumeText == null) ? 0 : resumeText.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		return result;
 	}
-	
+
+	public Offer getOfferId() {
+		return offerId;
+	}
+
+	public void setOfferId(Offer offerId) {
+		this.offerId = offerId;
+	}
+
+	public String getEmailId() {
+		return emailId;
+	}
+
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public String getResumeText() {
+		return resumeText;
+	}
+
+	public ApplicationStatus getStatus() {
+		return status;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -77,11 +111,7 @@ public class OfferApplication implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		OfferApplication other = (OfferApplication) obj;		
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;		
+	
 		if (resumeText == null) {
 			if (other.resumeText != null)
 				return false;
