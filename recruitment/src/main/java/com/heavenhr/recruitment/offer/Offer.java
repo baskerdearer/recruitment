@@ -1,29 +1,36 @@
 package com.heavenhr.recruitment.offer;
 
 import java.util.Date;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.heavenhr.recruitment.offerapplication.OfferApplication;
 
 @Entity
+@Table(name= "OFFER")
 public class Offer {
 	
 	public Offer() {
 		// Do Nothing.
 	}
 
-	@JsonProperty("id")
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="ID", insertable = false, updatable=false)
 	private Long id = null;
 	
-	@JsonProperty("jobTitle")
 	private String jobTitle = null;
 	
-	@JsonProperty("startDate")
 	private Date startDate = null;
 	
 	public Long getId() {

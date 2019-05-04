@@ -1,5 +1,8 @@
 package com.heavenhr.recruitment.offer;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +16,11 @@ public class OfferService {
 		return offerRepository.save(offer);
 	}
 	
-	public Offer get(Long offerId) {
-		return offerRepository.findOne(offerId);
+	public Optional<Offer> get(Long offerId) {
+		return offerRepository.findById(offerId);
 	}
 
+	public List<Offer> getOffers() {
+		return offerRepository.findAll();
+	}
 }
