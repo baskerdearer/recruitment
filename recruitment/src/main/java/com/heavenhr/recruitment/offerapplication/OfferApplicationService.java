@@ -23,5 +23,9 @@ public class OfferApplicationService {
 	public List<OfferApplication> allOfferApplication() {
 		return this.offerApplicationRepository.findAll();
 	}
+	
+	public OfferApplication update(OfferApplication offerApplication) {
+		return this.offerApplicationRepository.save(offerApplication);
+	}
 
 }

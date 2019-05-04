@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -65,6 +66,7 @@ public class RecruitmentApiController {
 	
 	@RequestMapping(value="/offer/{offerId}/applications", produces = {"application/json"})
 	public ResponseEntity<List<OfferApplication>> allOfferApplicationGet(@PathVariable("offerId") Long offerId) {
+		LOG.info("allOfferApplicationGet invoked.");
 		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON)
 				.body(this.offerApplicationService.allOfferApplication());
 	}
@@ -74,5 +76,10 @@ public class RecruitmentApiController {
 		LOG.info("offerApplicationSave invoked.");
 		return this.offerApplicationService.save(offerApplication).getId();
 	}
-
+	
+	@PatchMapping(value= "/offer/{offerId}/application", produces = {"application/json"})
+	public OfferApplication offerApplicationUpdate(@PathVariable("offerId") Long offerId, @RequestBody OfferApplication offerApplication) {
+		LOG.info("offerApplicationUpdate invoked.");
+		return this.offerApplicationService.update(offerApplication);
+	}
 }
