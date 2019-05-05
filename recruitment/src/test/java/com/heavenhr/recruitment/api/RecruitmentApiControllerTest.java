@@ -49,20 +49,37 @@ public class RecruitmentApiControllerTest {
 		MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
 		mappingJackson2HttpMessageConverter.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_JSON));
 		restTemplate.getRestTemplate().getMessageConverters().add(mappingJackson2HttpMessageConverter);
+		
 		Offer offer = new Offer();
-		offer.setJobTitle("ABC1");
+		offer.setJobTitle("ABC");
 		offer.setStartDate(Date.from(Instant.now()));
+		offer.setId(21L);
 				
-		ResponseEntity<ApiResponseObject> response = restTemplate.postForEntity("/offer", offer, ApiResponseObject.class);
+		ResponseEntity<ApiResponseObject> response = restTemplate.postForEntity("/recruitment/v1/offer", offer, ApiResponseObject.class);
+		
+		Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+		Assertions.assertThat(response.getBody()).isNotNull();
+		
+		OfferApplication application = new OfferApplication(); 
+		application.setEmailId("ABC@gmail.com");
+		application.setId(10L);
+		application.setResumeText("I am a java Developer");
+		application.setStatus(ApplicationStatus.APPLIED);
+		
+		Map<String, Object> params = new HashMap<>();
+		params.put("offerId", 21);
+		
+		 restTemplate.put("/recruitment/v1/offer/{offerId}/application", application, ApiResponseObject.class,params);
 	}
 	
 	@Test
 	public void offerSaveTest() {
 		Offer offer = new Offer();
-		offer.setJobTitle("ABC");
+		offer.setJobTitle("DEF");
 		offer.setStartDate(Date.from(Instant.now()));
+		offer.setId(22L);
 				
-		ResponseEntity<ApiResponseObject> response = restTemplate.postForEntity("/offer", offer, ApiResponseObject.class);
+		ResponseEntity<ApiResponseObject> response = restTemplate.postForEntity("/recruitment/v1/offer", offer, ApiResponseObject.class);
 		
 		Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 		Assertions.assertThat(response.getBody()).isNotNull();
@@ -72,16 +89,16 @@ public class RecruitmentApiControllerTest {
 	@Test
 	public void offerGetTest() {
 
-		ResponseEntity<Offer> response = restTemplate.getForEntity("/offer/{offerId}", Offer.class, 21);
+		ResponseEntity<Offer> response = restTemplate.getForEntity("/recruitment/v1/offer/{offerId}", Offer.class, 1);
 		Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-		Assertions.assertThat(response.getBody().getJobTitle()).isEqualTo("ABC");
+		Assertions.assertThat(response.getBody().getJobTitle()).isEqualTo("Senior Java Developer");
 
 	}
 
 	@Test
 	public void allOffersTest() {
 
-		ResponseEntity<List<Offer>> response = restTemplate.exchange("/offers", HttpMethod.GET, null,
+		ResponseEntity<List<Offer>> response = restTemplate.exchange("/recruitment/v1/offers", HttpMethod.GET, null,
 				new ParameterizedTypeReference<List<Offer>>() {
 				});
 
@@ -92,22 +109,12 @@ public class RecruitmentApiControllerTest {
 	@Test
 	public void offerApplicationGetTest() {
 		Map<String, Object> params = new HashMap<>();
-		params.put("offerId", 21);
-		params.put("id", 10);
-		ResponseEntity<OfferApplication> response = restTemplate.getForEntity("/offer/{offerId}/application/{id}", OfferApplication.class, params);
+		params.put("offerId", 1);
+		params.put("id", 1);
+		ResponseEntity<OfferApplication> response = restTemplate.getForEntity("/recruitment/v1/offer/{offerId}/application/{id}", OfferApplication.class, params);
 		Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 		Assertions.assertThat(response.getBody().getId()).isNotNull();
-	}
-
-	@Test
-	public void offerApplicationSaveTest() {
-		Map<String, Object> params = new HashMap<>();
-		params.put("offerId", 21);
-		ResponseEntity<Offer> response = restTemplate.getForEntity("/offer/{offerId}/application", Offer.class, params);
-		Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-		Assertions.assertThat(response.getBody().getJobTitle()).isEqualTo("ABC");
-
-	}
+	}	
 
 	@Test
 	public void offerApplicationUpdateTest() {

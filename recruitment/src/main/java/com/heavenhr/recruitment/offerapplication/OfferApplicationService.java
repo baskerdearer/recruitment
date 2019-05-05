@@ -67,7 +67,7 @@ public class OfferApplicationService {
 		 */
 		if(updatedOfferApplication != null && updatedOfferApplication.getStatus() != previousStatus) {
 			LOG.info("\n**************************Status change Alert*********************************************************\n" +
-					"Dear Candidate,\n Your application status changed from "+ previousStatus + " to "+ updatedOfferApplication.getStatus()
+					"Dear Candidate,\n Your application status changed from "+ previousStatus.getValue() + " to "+ updatedOfferApplication.getStatus().getValue()
 					+"\n******************************************************************************************************");					
 		}
 		return updatedOfferApplication;
