@@ -1,3 +1,2 @@
-INSERT INTO offer_table (jobTitle, startDate) VALUES
-  ('test', '10/08/2019'),
-  ('test1', '01/04/2019');
+INSERT INTO OFFER (JOB_TITLE, START_DATE) VALUES
+  ('test', '10/08/2019');

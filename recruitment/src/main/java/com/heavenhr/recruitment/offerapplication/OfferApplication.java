@@ -37,16 +37,16 @@ public class OfferApplication implements Serializable{
 	
 	@ManyToOne
 	@JsonIgnore
-    @JoinColumn(name="offer_id", nullable=false)
+    @JoinColumn(name="OFFER_ID", nullable=false)
 	private Offer offerId;
 	
-	@Column
+	@Column(name="EMAIL_ID")
 	private String emailId;
 	
-	@Column
+	@Column(name="RESUME_TEXT")
 	private String resumeText;
 	
-	@Column
+	@Column(name="STATUS")
 	@Enumerated(EnumType.STRING)
 	private ApplicationStatus status;
 	

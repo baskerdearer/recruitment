@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.heavenhr.recruitment.offerapplication.OfferApplication;
 
 @Entity
-@Table(name= "offer_table")
+@Table(name= "OFFER")
 public class Offer {
 	
 	public Offer() {
@@ -29,10 +29,10 @@ public class Offer {
 	@Column(name="OFFER_ID")
 	private Long offer_id = null;
 	
-	@Column
+	@Column(name="JOB_TITLE")
 	private String jobTitle = null;
 	
-	@Column
+	@Column(name="START_DATE")
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
 	private Date startDate = null;
 	
