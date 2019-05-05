@@ -45,7 +45,7 @@ public class RecruitmentApiController {
 	
 	private final String HTTP_RESPONSE_MESSAGE_400 = "Invalid Input";
 	private final String HTTP_RESPONSE_MESSAGE_404 = "Resource not found.";
-	private final String HTTP_RESPONSE_MESSAGE_201 = "Resource successfully updated.";
+	private final String HTTP_RESPONSE_MESSAGE_201 = "Resource successfully created.";
 	private final String HTTP_RESPONSE_MESSAGE_200 = "Success";
 	
 	private static final Logger LOG = LoggerFactory.getLogger(RecruitmentApiController.class);
@@ -97,7 +97,7 @@ public class RecruitmentApiController {
 			throw new ApiException(HttpStatus.BAD_REQUEST.value(), HTTP_RESPONSE_MESSAGE_400);
 		}
 		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON)
-				.body(new ApiResponseObject(HttpStatus.CREATED.value(), "Offer successfully created."));		
+				.body(new ApiResponseObject(HttpStatus.CREATED.value(), HTTP_RESPONSE_MESSAGE_201));		
 	}
 	
 	@ApiOperation(value = "query an Offer and Application ", nickname = "offerApplicationGet", notes = "Returns OfferApplication", response = OfferApplication.class, tags={ "offers", })

@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.heavenhr.recruitment.offer.Offer;
 
 @Entity
@@ -35,6 +36,7 @@ public class OfferApplication implements Serializable{
 	private Long id;
 	
 	@ManyToOne
+	@JsonIgnore
     @JoinColumn(name="offer_id", nullable=false)
 	private Offer offerId;
 	
