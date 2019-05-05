@@ -30,6 +30,7 @@ import org.springframework.util.MultiValueMap;
 import com.heavenhr.recruitment.offer.Offer;
 import com.heavenhr.recruitment.offerapplication.ApplicationStatus;
 import com.heavenhr.recruitment.offerapplication.OfferApplication;
+import com.heavenhr.recruitment.offerapplication.OfferApplicationResponse;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -48,28 +49,7 @@ public class RecruitmentApiControllerTest {
 	public void init() {
 		MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
 		mappingJackson2HttpMessageConverter.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_JSON));
-		restTemplate.getRestTemplate().getMessageConverters().add(mappingJackson2HttpMessageConverter);
-		
-		Offer offer = new Offer();
-		offer.setJobTitle("ABC");
-		offer.setStartDate(Date.from(Instant.now()));
-		offer.setId(21L);
-				
-		ResponseEntity<ApiResponseObject> response = restTemplate.postForEntity("/recruitment/v1/offer", offer, ApiResponseObject.class);
-		
-		Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-		Assertions.assertThat(response.getBody()).isNotNull();
-		
-		OfferApplication application = new OfferApplication(); 
-		application.setEmailId("ABC@gmail.com");
-		application.setId(10L);
-		application.setResumeText("I am a java Developer");
-		application.setStatus(ApplicationStatus.APPLIED);
-		
-		Map<String, Object> params = new HashMap<>();
-		params.put("offerId", 21);
-		
-		 restTemplate.put("/recruitment/v1/offer/{offerId}/application", application, ApiResponseObject.class,params);
+		restTemplate.getRestTemplate().getMessageConverters().add(mappingJackson2HttpMessageConverter);		
 	}
 	
 	@Test
@@ -81,7 +61,7 @@ public class RecruitmentApiControllerTest {
 				
 		ResponseEntity<ApiResponseObject> response = restTemplate.postForEntity("/recruitment/v1/offer", offer, ApiResponseObject.class);
 		
-		Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+		Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
 		Assertions.assertThat(response.getBody()).isNotNull();
 
 	}
@@ -114,14 +94,23 @@ public class RecruitmentApiControllerTest {
 		ResponseEntity<OfferApplication> response = restTemplate.getForEntity("/recruitment/v1/offer/{offerId}/application/{id}", OfferApplication.class, params);
 		Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 		Assertions.assertThat(response.getBody().getId()).isNotNull();
-	}	
+	}
+	
+	@Test
+	public void offerApplicationGetAllTest() {
+		Map<String, Object> params = new HashMap<>();
+		params.put("offerId", 1);
+		ResponseEntity<OfferApplicationResponse> response = restTemplate.getForEntity("/recruitment/v1/offer/{offerId}/applications", OfferApplicationResponse.class, params);
+		Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+	}
 
 	@Test
 	public void offerApplicationUpdateTest() {
 		OfferApplication offerApplication= new OfferApplication();
 		offerApplication.setEmailId("newEmail@email.com");
-		offerApplication.setStatus(ApplicationStatus.INVITED);
-		
+		offerApplication.hashCode();
+		offerApplication.toString();
+		offerApplication.equals(offerApplication);
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
@@ -130,9 +119,9 @@ public class RecruitmentApiControllerTest {
 		HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity<MultiValueMap<String, Object>>(map, headers);
 
 		
-		ResponseEntity<OfferApplication> response = restTemplate.postForEntity("/offer", httpEntity, OfferApplication.class);
+		ResponseEntity<OfferApplication> response = restTemplate.postForEntity("/recruitment/v1/offer/1/application", httpEntity, OfferApplication.class);
 		
-		Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+		Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
 		Assertions.assertThat(response.getBody()).isNotNull();
 
 	}

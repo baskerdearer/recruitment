@@ -98,8 +98,8 @@ public class RecruitmentApiController {
 		if(null == newOffer) {
 			throw new ApiException(HttpStatus.BAD_REQUEST.value(), HTTP_RESPONSE_MESSAGE_400);
 		}
-		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON)
-				.body(new ApiResponseObject(HttpStatus.CREATED.value(), HTTP_RESPONSE_MESSAGE_201));		
+		return  new ResponseEntity<ApiResponseObject>(new ApiResponseObject(HttpStatus.CREATED.value(), HTTP_RESPONSE_MESSAGE_201),
+				HttpStatus.CREATED);		
 	}
 	
 	@ApiOperation(value = "query an Offer and Application ", nickname = "offerApplicationGet", notes = "Returns OfferApplication", response = OfferApplication.class, tags={ "offers", })
@@ -149,8 +149,8 @@ public class RecruitmentApiController {
 		if(newOfferApplication == null) {
 			throw new ApiException(HttpStatus.NOT_FOUND.value(), HTTP_RESPONSE_MESSAGE_400);
 		}
-		return  ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON)
-				.body(new ApiResponseObject(HttpStatus.CREATED.value(), "Application successfully created."));
+		return  new ResponseEntity<ApiResponseObject>(new ApiResponseObject(HttpStatus.CREATED.value(), HTTP_RESPONSE_MESSAGE_201),
+				HttpStatus.CREATED);
 	}
 	
 	@ApiOperation(value = "Update an application for a Offer Id ", nickname = "allOfferApplicationGet", notes = "Returns OfferApplication", response = OfferApplication.class, tags={ "offers", })
