@@ -32,6 +32,7 @@ import io.swagger.annotations.ApiResponses;
 
 @Api(value = "Api for Recruitment", description = "the API list for the HR management ")
 @RestController
+@RequestMapping("/recruitment/v1")
 public class RecruitmentApiController {
 	
 	RecruitmentApiController() {
