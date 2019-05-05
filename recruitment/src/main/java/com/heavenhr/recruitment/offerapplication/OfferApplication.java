@@ -4,7 +4,6 @@ package com.heavenhr.recruitment.offerapplication;
 import java.io.Serializable;
 
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -14,12 +13,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.heavenhr.recruitment.offer.Offer;
 
 @Entity
-@Table(name = "OFFER_APPLICATION")
+@Table(name = "OFFER_APPLICATION", uniqueConstraints = @UniqueConstraint(columnNames={"OFFER_ID", "EMAIL_ID"}))
 public class OfferApplication implements Serializable{
 	public OfferApplication() {
 		// Do Nothing.
@@ -32,12 +32,12 @@ public class OfferApplication implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID")
+	@Column(name = "ID", nullable=false, updatable = false)
 	private Long id;
 	
 	@ManyToOne
 	@JsonIgnore
-    @JoinColumn(name="OFFER_ID", nullable=false)
+    @JoinColumn(name="OFFER_ID", nullable=false, updatable = false)
 	private Offer offerId;
 	
 	@Column(name="EMAIL_ID")

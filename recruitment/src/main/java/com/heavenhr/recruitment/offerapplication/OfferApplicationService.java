@@ -3,6 +3,8 @@ package com.heavenhr.recruitment.offerapplication;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,7 @@ public class OfferApplicationService {
 	@Autowired
 	private static final Logger LOG = LoggerFactory.getLogger(OfferApplicationService.class);
 	
+	@Transactional
 	public OfferApplication save(OfferApplication offerApplication, Long offerId) {
 		Optional<Offer> offer = this.offerRepository.findById(offerId);
 		if(!offer.isPresent()) {
@@ -41,6 +44,7 @@ public class OfferApplicationService {
 		return this.offerApplicationRepository.findAll();
 	}
 	
+	@Transactional
 	public OfferApplication update(OfferApplication offerApplication, Long offerId) {
 		Optional<Offer> offer = this.offerRepository.findById(offerId);
 		if(!offer.isPresent()) {
@@ -52,6 +56,11 @@ public class OfferApplicationService {
 			return null;
 		}
 		ApplicationStatus previousStatus = offerOptional.get().getStatus();
+		offerApplication.setEmailId(offerApplication.getEmailId() != null ? offerApplication.getEmailId() : offerOptional.get().getEmailId());
+		offerApplication.setResumeText(offerApplication.getResumeText() != null ? offerApplication.getResumeText() : offerOptional.get().getResumeText());
+		offerApplication.setStatus(offerApplication.getStatus() != null ? offerApplication.getStatus() : offerOptional.get().getStatus());
+		offerApplication.setId(offerApplication.getId() != null ? offerApplication.getId() : offerOptional.get().getId());
+		
 		OfferApplication updatedOfferApplication = this.offerApplicationRepository.save(offerApplication);
 		/* 
 		 * Status change alert
