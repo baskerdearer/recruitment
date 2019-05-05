@@ -1,5 +1,6 @@
 package com.heavenhr.recruitment.offer;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
@@ -19,10 +20,15 @@ import com.heavenhr.recruitment.offerapplication.OfferApplication;
 
 @Entity
 @Table(name= "OFFER")
-public class Offer {
-	
+public class Offer implements Serializable{	
+
 	public Offer() {
+		// Do Nothing.
 	}
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

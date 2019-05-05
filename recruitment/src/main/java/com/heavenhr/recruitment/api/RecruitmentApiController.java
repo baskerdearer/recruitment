@@ -58,7 +58,7 @@ public class RecruitmentApiController {
         @ApiResponse(code = 400, message = HTTP_RESPONSE_MESSAGE_400), // need to capture
         @ApiResponse(code = 404, message = HTTP_RESPONSE_MESSAGE_404) })
 	@GetMapping(value = "/offer/{offerId}", produces = { "application/json" })
-	public ResponseEntity<Optional<Offer>> offerGet(@ApiParam(value = "ID of Offer to return",required=true) @PathVariable("offerId") Long offerId) {
+	public ResponseEntity<Offer> offerGet(@ApiParam(value = "ID of Offer to return",required=true) @PathVariable("offerId") Long offerId) {
 		LOG.info("offerGet invoked "+offerId);
 		Optional<Offer> offer = offerService.get(offerId);
 		System.out.println(offer.isPresent());
@@ -66,7 +66,7 @@ public class RecruitmentApiController {
 			throw new ApiException(HttpStatus.NOT_FOUND.value(), HTTP_RESPONSE_MESSAGE_404);
 		}
 		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON)
-				.body(offer);
+				.body(offer.get());
 	}
 	
 
@@ -85,8 +85,8 @@ public class RecruitmentApiController {
 		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON)
 				.body(offers);
 	}
-	////////////////////////////////////// Save ///////////////////////////// Not found
-	@ApiOperation(value = "Save an offer ", nickname = "offerSave", notes = "Returns saved ID", response = Long.class, tags={ "offers", })
+
+	@ApiOperation(value = "Save an offer ", nickname = "offerSave", notes = "Returns saved ID", response = ApiResponseObject.class, tags={ "offers", })
     @ApiResponses(value = {
         @ApiResponse(code = 201, message = HTTP_RESPONSE_MESSAGE_201, response = ApiResponseObject.class),
         @ApiResponse(code = 400, message = HTTP_RESPONSE_MESSAGE_400)})
@@ -107,14 +107,14 @@ public class RecruitmentApiController {
         @ApiResponse(code = 400, message = HTTP_RESPONSE_MESSAGE_400), 
         @ApiResponse(code = 404, message = HTTP_RESPONSE_MESSAGE_404) })
 	@GetMapping(value = "/offer/{offerId}/application/{id}", produces= {"application/json"})
-	public ResponseEntity<Optional<OfferApplication>> offerApplicationGet(@ApiParam(value = "offer Id",required=true)@PathVariable ("offerId") Long offerId, @ApiParam(value = "application Id",required=true)@PathVariable ("id") Long id) {
+	public ResponseEntity<OfferApplication> offerApplicationGet(@ApiParam(value = "offer Id",required=true)@PathVariable ("offerId") Long offerId, @ApiParam(value = "application Id",required=true)@PathVariable ("id") Long id) {
 		LOG.info("offerApplicationGet invoked.");
 		Optional<OfferApplication> offerApplication = this.offerApplicationService.get(id);
 		if(!offerApplication.isPresent()) {
 			throw new ApiException(HttpStatus.NOT_FOUND.value(), HTTP_RESPONSE_MESSAGE_404);
 		}
 		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON)
-				.body(offerApplication);
+				.body(offerApplication.get());
 	}
 	
 	
@@ -137,7 +137,6 @@ public class RecruitmentApiController {
 				.body(offerApplicationResponse);
 	}
 	
-	////////////////////////////////////// Save ///////////////////////////// Not found
 	@ApiOperation(value = "save an application for a Offer Id ", nickname = "allOfferApplicationGet", notes = "Returns OfferApplication", response = Long.class, tags={ "offers", })
     @ApiResponses(value = {
         @ApiResponse(code = 201, message = HTTP_RESPONSE_MESSAGE_201, response = ApiResponseObject.class),

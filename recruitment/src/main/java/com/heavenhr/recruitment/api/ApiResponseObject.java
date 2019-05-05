@@ -1,19 +1,31 @@
 package com.heavenhr.recruitment.api;
 
 public class ApiResponseObject {
+	
+	ApiResponseObject() {
+		
+	}
 
 	public ApiResponseObject(Integer statusCode, String message) {
 		this.statusCode = statusCode;
 		this.message = message;
 	}
-	private final Integer statusCode;
-	private final String message;
+	private Integer statusCode;
+	private String message;
 	public Integer getStatusCode() {
 		return statusCode;
 	}
 	public String getMessage() {
 		return message;
 	}
+	public void setStatusCode(Integer statusCode) {
+		this.statusCode = statusCode;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

@@ -36,7 +36,7 @@ import com.heavenhr.recruitment.offerapplication.OfferApplication;
 
 public class RecruitmentApiControllerTest {
 
-	/*@Autowired
+	@Autowired
 	private TestRestTemplate restTemplate;
 
 	@LocalServerPort
@@ -49,6 +49,19 @@ public class RecruitmentApiControllerTest {
 		MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
 		mappingJackson2HttpMessageConverter.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_JSON));
 		restTemplate.getRestTemplate().getMessageConverters().add(mappingJackson2HttpMessageConverter);
+	}
+	
+	@Test
+	public void offerSaveTest() {
+		Offer offer = new Offer();
+		offer.setJobTitle("ABC");
+		offer.setStartDate(Date.from(Instant.now()));
+				
+		ResponseEntity<ApiResponseObject> response = restTemplate.postForEntity("/offer", offer, ApiResponseObject.class);
+		
+		Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+		Assertions.assertThat(response.getBody()).isNotNull();
+
 	}
 
 	@Test
@@ -69,20 +82,7 @@ public class RecruitmentApiControllerTest {
 
 		Assertions.assertThat(Arrays.asList(response.getBody()).size()).isGreaterThan(0);
 
-	}
-
-	@Test
-	public void offerSaveTest() {
-		Offer offer = new Offer();
-		offer.setJobTitle("ABC");
-		offer.setStartDate(Date.from(Instant.now()));
-		
-		ResponseEntity<Long> response = restTemplate.postForEntity("/offer", offer, Long.class);
-		
-		Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-		Assertions.assertThat(response.getBody()).isNotNull();
-
-	}
+	}	
 
 	@Test
 	public void offerApplicationGetTest() {
@@ -91,8 +91,7 @@ public class RecruitmentApiControllerTest {
 		params.put("id", 10);
 		ResponseEntity<OfferApplication> response = restTemplate.getForEntity("/offer/{offerId}/application/{id}", OfferApplication.class, params);
 		Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-		Assertions.assertThat(response.getBody().getUniqueCandidateOffer().getId()).isNotNull();
-
+		Assertions.assertThat(response.getBody().getId()).isNotNull();
 	}
 
 	@Test
@@ -108,7 +107,6 @@ public class RecruitmentApiControllerTest {
 	@Test
 	public void offerApplicationUpdateTest() {
 		OfferApplication offerApplication= new OfferApplication();
-		//offerApplication.setId(1l);
 		offerApplication.setEmailId("newEmail@email.com");
 		offerApplication.setStatus(ApplicationStatus.INVITED);
 		
@@ -125,6 +123,6 @@ public class RecruitmentApiControllerTest {
 		Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 		Assertions.assertThat(response.getBody()).isNotNull();
 
-	}*/
+	}
 
 }
