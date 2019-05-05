@@ -49,6 +49,11 @@ public class RecruitmentApiControllerTest {
 		MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
 		mappingJackson2HttpMessageConverter.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_JSON));
 		restTemplate.getRestTemplate().getMessageConverters().add(mappingJackson2HttpMessageConverter);
+		Offer offer = new Offer();
+		offer.setJobTitle("ABC1");
+		offer.setStartDate(Date.from(Instant.now()));
+				
+		ResponseEntity<ApiResponseObject> response = restTemplate.postForEntity("/offer", offer, ApiResponseObject.class);
 	}
 	
 	@Test

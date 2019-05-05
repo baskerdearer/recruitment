@@ -1,5 +1,11 @@
 package com.heavenhr.recruitment.api;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -13,7 +19,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,12 +28,6 @@ import com.heavenhr.recruitment.offer.OfferService;
 import com.heavenhr.recruitment.offerapplication.OfferApplication;
 import com.heavenhr.recruitment.offerapplication.OfferApplicationResponse;
 import com.heavenhr.recruitment.offerapplication.OfferApplicationService;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 
 @Api(value = "Api for Recruitment", description = "the API list for the HR management ")
 @RestController
@@ -142,7 +141,7 @@ public class RecruitmentApiController {
     @ApiResponses(value = {
         @ApiResponse(code = 201, message = HTTP_RESPONSE_MESSAGE_201, response = ApiResponseObject.class),
         @ApiResponse(code = 400, message = HTTP_RESPONSE_MESSAGE_400)})
-	@PutMapping(value ="/offer/{offerId}/application", produces = {"application/json" })
+	@PostMapping(value ="/offer/{offerId}/application", produces = {"application/json" })
 	public  ResponseEntity<ApiResponseObject> offerApplicationSave(@ApiParam(value = "offer Id",required=true)@PathVariable("offerId") Long offerId,@ApiParam(value = "application object",required=true) @RequestBody OfferApplication offerApplication) {
 		LOG.info("offerApplicationSave invoked.");
 		OfferApplication newOfferApplication = this.offerApplicationService.save(offerApplication, offerId);
