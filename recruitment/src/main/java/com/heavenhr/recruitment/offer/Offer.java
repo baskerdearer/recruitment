@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.heavenhr.recruitment.offerapplication.OfferApplication;
 
@@ -32,6 +33,7 @@ public class Offer {
 	private String jobTitle = null;
 	
 	@Column
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
 	private Date startDate = null;
 	
 	@OneToMany(mappedBy="offerId")

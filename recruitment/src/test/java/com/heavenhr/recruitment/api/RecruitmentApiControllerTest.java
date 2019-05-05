@@ -36,7 +36,7 @@ import com.heavenhr.recruitment.offerapplication.OfferApplication;
 
 public class RecruitmentApiControllerTest {
 
-	@Autowired
+	/*@Autowired
 	private TestRestTemplate restTemplate;
 
 	@LocalServerPort
@@ -84,7 +84,7 @@ public class RecruitmentApiControllerTest {
 
 	}
 
-	/*@Test
+	@Test
 	public void offerApplicationGetTest() {
 		Map<String, Object> params = new HashMap<>();
 		params.put("offerId", 21);
@@ -103,7 +103,7 @@ public class RecruitmentApiControllerTest {
 		Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 		Assertions.assertThat(response.getBody().getJobTitle()).isEqualTo("ABC");
 
-	}*/
+	}
 
 	@Test
 	public void offerApplicationUpdateTest() {
@@ -125,6 +125,6 @@ public class RecruitmentApiControllerTest {
 		Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 		Assertions.assertThat(response.getBody()).isNotNull();
 
-	}
+	}*/
 
 }
