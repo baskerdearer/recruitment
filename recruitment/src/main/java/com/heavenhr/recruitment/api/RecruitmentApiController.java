@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.heavenhr.recruitment.offer.Offer;
 import com.heavenhr.recruitment.offer.OfferService;
 import com.heavenhr.recruitment.offerapplication.OfferApplication;
+import com.heavenhr.recruitment.offerapplication.OfferApplicationResponse;
 import com.heavenhr.recruitment.offerapplication.OfferApplicationService;
 
 import io.swagger.annotations.Api;
@@ -119,18 +120,21 @@ public class RecruitmentApiController {
 	
 	@ApiOperation(value = "query an application by Offer Id ", nickname = "allOfferApplicationGet", notes = "Returns OfferApplication", response = OfferApplication.class, tags={ "offers", })
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "successful operation", response = OfferApplication.class),
+        @ApiResponse(code = 200, message = "successful operation", response = OfferApplicationResponse.class),
         @ApiResponse(code = 400, message = HTTP_RESPONSE_MESSAGE_400),
         @ApiResponse(code = 404, message = HTTP_RESPONSE_MESSAGE_404) })
 	@RequestMapping(value="/offer/{offerId}/applications", produces = {"application/json"})
-	public ResponseEntity<List<OfferApplication>> allOfferApplicationGet(@ApiParam(value = "offer Id",required=true)@PathVariable("offerId") Long offerId) {
+	public ResponseEntity<OfferApplicationResponse> allOfferApplicationGet(@ApiParam(value = "offer Id",required=true)@PathVariable("offerId") Long offerId) {
 		LOG.info("allOfferApplicationGet invoked.");
 		List<OfferApplication> offerApplications = this.offerApplicationService.allOfferApplication();
 		if(offerApplications.isEmpty()) {
 			throw new ApiException(HttpStatus.NOT_FOUND.value(), HTTP_RESPONSE_MESSAGE_404);
 		}
+		OfferApplicationResponse offerApplicationResponse = new OfferApplicationResponse();
+		offerApplicationResponse.setApplications(offerApplications);
+		offerApplicationResponse.setNumberOfApplications(offerApplications.size());
 		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON)
-				.body(offerApplications);
+				.body(offerApplicationResponse);
 	}
 	
 	////////////////////////////////////// Save ///////////////////////////// Not found
@@ -149,7 +153,7 @@ public class RecruitmentApiController {
 				.body(new ApiResponseObject(HttpStatus.CREATED.value(), "Application successfully created."));
 	}
 	
-	@ApiOperation(value = "update an application for a Offer Id ", nickname = "allOfferApplicationGet", notes = "Returns OfferApplication", response = OfferApplication.class, tags={ "offers", })
+	@ApiOperation(value = "Update an application for a Offer Id ", nickname = "allOfferApplicationGet", notes = "Returns OfferApplication", response = OfferApplication.class, tags={ "offers", })
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = HTTP_RESPONSE_MESSAGE_200, response = ApiResponseObject.class),
         @ApiResponse(code = 400, message = HTTP_RESPONSE_MESSAGE_400),
